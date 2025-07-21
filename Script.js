@@ -60,3 +60,91 @@
  
  window.addEventListener('load', fadeInOnScroll);
  window.addEventListener('scroll', fadeInOnScroll);
+
+ document.addEventListener('DOMContentLoaded', function() {
+    // Animate skill bars when they come into view
+    const skillItems = document.querySelectorAll('.skill-item');
+    
+    const animateSkills = () => {
+        skillItems.forEach(item => {
+            const skillBar = item.querySelector('.skill-progress');
+            const percent = item.querySelector('.skill-info span:last-child').textContent;
+            
+            // Reset width for animation
+            skillBar.style.width = '0';
+            
+            // Set the final width after a small delay
+            setTimeout(() => {
+                skillBar.style.width = percent;
+            }, 100);
+        });
+    };
+    
+    // Intersection Observer for scroll animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateSkills();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+    
+    // Observe the skills container
+    const skillsContainer = document.querySelector('.skills-container');
+    if (skillsContainer) {
+        observer.observe(skillsContainer);
+    }
+    
+    // Additional hover effects
+    skillItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const skillBar = this.querySelector('.skill-progress');
+            skillBar.style.transform = 'scaleY(1.2)';
+            skillBar.style.transition = 'transform 0.2s ease';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            const skillBar = this.querySelector('.skill-progress');
+            skillBar.style.transform = 'scaleY(1)';
+        });
+    });
+});
+
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const overlay = document.querySelector('.overlay');
+        const closeBtn = document.querySelector('.close-btn');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+        
+        const fadeInElements = document.querySelectorAll('.fade-in');
+        const delayElements = document.querySelectorAll('.delay-1, .delay-2, .delay-3, .delay-4');
+
+        window.addEventListener('scroll', () => {
+            fadeInElements.forEach((element) => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+
+                if (elementPosition < screenPosition) {
+                    element.classList.add('fade-in-active');
+                }
+            });
+
+            delayElements.forEach((element) => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+
+                if (elementPosition < screenPosition) {
+                    element.classList.add('fade-in-active');
+                }
+            });
+        });
